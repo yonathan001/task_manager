@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { signout } from '@/app/actions/auth';
 import { TaskList } from '@/components/project/task-list';
 import { TaskFilters } from '@/components/project/task-filters';
+import { OverdueTasksButton } from '@/components/project/overdue-tasks-button';
 
 interface ProjectPageProps {
   params: Promise<{ projectId: string }>;
@@ -75,8 +76,9 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-6">
+        <div className="mb-6 flex justify-between items-start">
           <TaskFilters projectId={projectId} currentFilters={filters} />
+          <OverdueTasksButton projectId={projectId} />
         </div>
 
         <TaskList projectId={projectId} initialTasks={tasks} filters={filters} />
