@@ -95,41 +95,24 @@ USING (
 -- RLS POLICIES FOR WORKSPACE_MEMBERS
 -- =============================================
 
--- Workspace Members: SELECT
+-- Workspace Members: SELECT (simplified to avoid recursion)
 CREATE POLICY "Users can view members of their workspaces"
 ON workspace_members FOR SELECT
-USING (
-  EXISTS (
-    SELECT 1 FROM workspace_members wm
-    WHERE wm.workspace_id = workspace_members.workspace_id
-    AND wm.user_id = auth.uid()
-  )
-);
+USING (user_id = auth.uid());
 
 -- Workspace Members: INSERT
 CREATE POLICY "Workspace owners can add members"
 ON workspace_members FOR INSERT
-WITH CHECK (
-  EXISTS (
-    SELECT 1 FROM workspace_members
-    WHERE workspace_members.workspace_id = workspace_members.workspace_id
-    AND workspace_members.user_id = auth.uid()
-    AND workspace_members.role = 'owner'
-  )
-  OR NOT EXISTS (
-    SELECT 1 FROM workspace_members
-    WHERE workspace_members.workspace_id = workspace_members.workspace_id
-  )
-);
+WITH CHECK (auth.uid() IS NOT NULL);
 
 -- Workspace Members: UPDATE
 CREATE POLICY "Workspace owners can update member roles"
 ON workspace_members FOR UPDATE
 USING (
-  EXISTS (
-    SELECT 1 FROM workspace_members wm
-    WHERE wm.workspace_id = workspace_members.workspace_id
-    AND wm.user_id = auth.uid()
+  workspace_id IN (
+    SELECT wm.workspace_id 
+    FROM workspace_members wm 
+    WHERE wm.user_id = auth.uid() 
     AND wm.role = 'owner'
   )
 );
@@ -138,10 +121,10 @@ USING (
 CREATE POLICY "Workspace owners can remove members"
 ON workspace_members FOR DELETE
 USING (
-  EXISTS (
-    SELECT 1 FROM workspace_members wm
-    WHERE wm.workspace_id = workspace_members.workspace_id
-    AND wm.user_id = auth.uid()
+  workspace_id IN (
+    SELECT wm.workspace_id 
+    FROM workspace_members wm 
+    WHERE wm.user_id = auth.uid() 
     AND wm.role = 'owner'
   )
 );
@@ -302,3 +285,14 @@ INSERT INTO tasks (project_id, title, description, status, assignee_id, due_date
 
 -- Enable Realtime for tasks table
 ALTER PUBLICATION supabase_realtime ADD TABLE tasks;
+
+
+-- =============================================
+-- GRANT PERMISSIONS TO AUTHENTICATED USERS
+-- =============================================
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.workspaces TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.workspace_members TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.projects TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.tasks TO authenticated;
+GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO authenticated;
