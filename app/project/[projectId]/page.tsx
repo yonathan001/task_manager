@@ -31,11 +31,6 @@ async function getProjectData(projectId: string) {
 
   if (projectError || !project) redirect('/');
 
-  const { data: members } = await supabase
-    .from('workspace_members')
-    .select('user_id')
-    .eq('workspace_id', project.workspace_id);
-
   const { data: tasks, error: tasksError } = await supabase
     .from('tasks')
     .select('*')
@@ -77,7 +72,7 @@ export default async function ProjectPage({ params, searchParams }: ProjectPageP
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6 flex justify-between items-start">
-          <TaskFilters projectId={projectId} currentFilters={filters} />
+          <TaskFilters currentFilters={filters} />
           <OverdueTasksButton projectId={projectId} />
         </div>
 

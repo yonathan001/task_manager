@@ -3,11 +3,10 @@
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 
 interface TaskFiltersProps {
-  projectId: string;
   currentFilters: { status?: string; assignee?: string };
 }
 
-export function TaskFilters({ projectId, currentFilters }: TaskFiltersProps): JSX.Element {
+export function TaskFilters({ currentFilters }: TaskFiltersProps): JSX.Element {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

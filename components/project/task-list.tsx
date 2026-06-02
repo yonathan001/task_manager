@@ -5,7 +5,6 @@ import { createClient } from '@/lib/supabase/client';
 import { Database } from '@/types/database';
 import { TaskCard } from './task-card';
 import { EmptyState } from '@/components/ui/empty-state';
-import { LoadingSpinner } from '@/components/ui/loading';
 
 type Task = Database['public']['Tables']['tasks']['Row'];
 
@@ -17,13 +16,8 @@ interface TaskListProps {
 
 export function TaskList({ projectId, initialTasks, filters }: TaskListProps): JSX.Element {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
-  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const supabase = createClient();
-
-  useEffect(() => {
-    setTasks(initialTasks);
-  }, [initialTasks]);
 
   useEffect(() => {
     const channel = supabase
@@ -65,10 +59,6 @@ export function TaskList({ projectId, initialTasks, filters }: TaskListProps): J
     if (filters.assignee === 'unassigned' && task.assignee_id) return false;
     return true;
   });
-
-  if (loading) {
-    return <LoadingSpinner />;
-  }
 
   if (error) {
     return (

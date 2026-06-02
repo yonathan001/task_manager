@@ -35,7 +35,7 @@ async function getWorkspaces() {
 }
 
 async function WorkspaceList() {
-  const { workspaces, user } = await getWorkspaces();
+  const { workspaces } = await getWorkspaces();
 
   if (!workspaces || workspaces.length === 0) {
     return (
