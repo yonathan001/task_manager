@@ -43,3 +43,7 @@ next-env.d.ts
 # local reference files (not for submission)
 DEPLOYMENT.md
 SUBMISSION_CHECKLIST.md
+
+# auto-generated agent files
+AGENTS.md
+CLAUDE.md
