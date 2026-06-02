@@ -18,6 +18,8 @@ export function TaskCard({ task }: TaskCardProps): JSX.Element {
   const [editedTask, setEditedTask] = useState<Task>(task);
   const [saving, setSaving] = useState<boolean>(false);
   const [optimisticStatus, setOptimisticStatus] = useState<TaskStatus | null>(null);
+  const [previousStatus, setPreviousStatus] = useState<TaskStatus>(task.status);
+  const [showRollbackMessage, setShowRollbackMessage] = useState<boolean>(false);
   const supabase = createClient();
 
   const displayStatus = optimisticStatus || task.status;
@@ -50,7 +52,9 @@ export function TaskCard({ task }: TaskCardProps): JSX.Element {
   }
 
   async function handleStatusChange(newStatus: TaskStatus): Promise<void> {
+    setPreviousStatus(task.status);
     setOptimisticStatus(newStatus);
+    setShowRollbackMessage(false);
     
     const { error } = await supabase
       .from('tasks')
@@ -58,8 +62,9 @@ export function TaskCard({ task }: TaskCardProps): JSX.Element {
       .eq('id', task.id);
 
     if (error) {
-      setOptimisticStatus(null);
-      alert('Failed to update status: ' + error.message);
+      setOptimisticStatus(previousStatus);
+      setShowRollbackMessage(true);
+      setTimeout(() => setShowRollbackMessage(false), 3000);
     } else {
       setOptimisticStatus(null);
     }
@@ -79,6 +84,12 @@ export function TaskCard({ task }: TaskCardProps): JSX.Element {
 
   return (
     <div className="bg-white border border-slate-200 rounded-lg p-5 hover:border-slate-300 transition">
+      {showRollbackMessage && (
+        <div className="mb-3 bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded text-sm">
+          Failed to update status. Changes have been reverted.
+        </div>
+      )}
+      
       {isEditing ? (
         <div className="space-y-4">
           <div>
