@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local reference files (not for submission)
+DEPLOYMENT.md
+SUBMISSION_CHECKLIST.md
