@@ -17,7 +17,7 @@ interface OverdueTasksButtonProps {
   projectId: string;
 }
 
-export function OverdueTasksButton({ projectId }: OverdueTasksButtonProps): JSX.Element {
+export function OverdueTasksButton({ projectId }: OverdueTasksButtonProps): React.JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [overdueTasks, setOverdueTasks] = useState<OverdueTask[] | null>(null);
   const [error, setError] = useState<string | null>(null);

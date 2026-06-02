@@ -6,7 +6,7 @@ interface TaskFiltersProps {
   currentFilters: { status?: string; assignee?: string };
 }
 
-export function TaskFilters({ currentFilters }: TaskFiltersProps): JSX.Element {
+export function TaskFilters({ currentFilters }: TaskFiltersProps): React.JSX.Element {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

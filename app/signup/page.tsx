@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { signup } from '@/app/actions/auth';
 
-export default function SignupPage(): JSX.Element {
+export default function SignupPage(): React.JSX.Element {
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 

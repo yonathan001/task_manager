@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Database } from '@/types/database';
+import type { Database } from '@/types/database';
 import { createClient } from '@/lib/supabase/client';
 import { formatDate, isOverdue } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -13,7 +13,7 @@ interface TaskCardProps {
   task: Task;
 }
 
-export function TaskCard({ task }: TaskCardProps): JSX.Element {
+export function TaskCard({ task }: TaskCardProps): React.JSX.Element {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editedTask, setEditedTask] = useState<Task>(task);
   const [saving, setSaving] = useState<boolean>(false);

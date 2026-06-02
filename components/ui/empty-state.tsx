@@ -7,7 +7,7 @@ interface EmptyStateProps {
   action?: ReactNode;
 }
 
-export function EmptyState({ icon, title, description, action }: EmptyStateProps): JSX.Element {
+export function EmptyState({ icon, title, description, action }: EmptyStateProps): React.JSX.Element {
   return (
     <div className="flex flex-col items-center justify-center p-12 text-center">
       {icon && <div className="mb-4 text-slate-400">{icon}</div>}

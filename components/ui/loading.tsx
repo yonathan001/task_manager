@@ -1,4 +1,4 @@
-export function LoadingSpinner(): JSX.Element {
+export function LoadingSpinner(): React.JSX.Element {
   return (
     <div className="flex items-center justify-center p-8">
       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -6,7 +6,7 @@ export function LoadingSpinner(): JSX.Element {
   );
 }
 
-export function LoadingSkeleton(): JSX.Element {
+export function LoadingSkeleton(): React.JSX.Element {
   return (
     <div className="animate-pulse space-y-4">
       <div className="h-4 bg-slate-200 rounded w-3/4"></div>
@@ -16,7 +16,7 @@ export function LoadingSkeleton(): JSX.Element {
   );
 }
 
-export function CardSkeleton(): JSX.Element {
+export function CardSkeleton(): React.JSX.Element {
   return (
     <div className="bg-white border border-slate-200 rounded-lg p-6 animate-pulse">
       <div className="h-6 bg-slate-200 rounded w-2/3 mb-4"></div>

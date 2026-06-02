@@ -14,7 +14,7 @@ interface TaskListProps {
   filters: { status?: string; assignee?: string };
 }
 
-export function TaskList({ projectId, initialTasks, filters }: TaskListProps): JSX.Element {
+export function TaskList({ projectId, initialTasks, filters }: TaskListProps): React.JSX.Element {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [error, setError] = useState<string | null>(null);
   const supabase = createClient();
